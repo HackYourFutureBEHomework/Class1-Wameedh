@@ -1,0 +1,124 @@
+  .alert-error {
+    color: rgb(46, 0, 0);
+    background-color: #e28282;
+    padding: 10px;
+   
+}
+
+*{
+    list-style-type: none;
+}
+
+body{
+   width: 768px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #f8f8f8;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(0, 0, 0, 87%);
+    margin-top: 0;
+}
+
+.header {
+    color: white;
+    background-color: #3F51B5;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+select {
+    margin-left: 16px;
+    font-size: 14px;
+    width: 250px;
+    height: 32px;
+    padding: 2px;
+  }
+  .container{    
+  display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+a {
+    padding: 5px;
+    text-decoration: none;
+    color: rgb(0, 0, 0, 87%);
+}
+
+a:hover {
+    font-weight: bold;
+    color: #3F51B5;
+   
+}
+
+img {
+     border-radius: 3px;
+    margin-right: 16px;
+    height: 48px;
+}
+
+.info_repo , .info_con{
+   margin-bottom: 8px;
+    border: none;
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2), 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .12);
+}
+
+ .info_repo {
+    padding: 16px;
+    margin-right: 16px;
+  flex: 1;
+} 
+.info_con{  
+   flex: 1;
+  } 
+
+.label{
+    font-weight: bold;
+    color: #3F51B5;
+    text-shadow: black;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    
+}
+.repo_list {
+list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+.contributor{
+ border-bottom: solid 1px rgb(0, 0, 0, 12%);
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+.contributor-data{
+  flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+}
+.contributor-badge {
+  font-size: 12px;
+    padding: 2px 8px;
+    line-height: 1rem;
+   background-color: #3F51B5;
+    color: white;
+    border-radius: 4px;
+}
+
+.contributor-header{
+  font-size: 0.8rem;
+    color: rgb(0, 0, 0, 54%);
+    padding: 8px 16px 4px 16px;
+}
+
+
