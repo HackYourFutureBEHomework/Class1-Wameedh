@@ -1,44 +1,67 @@
 --1.Select all the customers from Brussels
-select * from customers where city = "Brussels"
+SELECT * FROM customers WHERE city = "Brussels";
 
 
 --2.Select all the invoices of more than 10 euros
-select * from invoices where total > 10
+SELECT * FROM invoices WHERE total > 10;
 
 
 --3.Select all the tracks of the Rock genre ordered by track name
 -- LEFT JOIN table2 ON table1.column_name = table2.column_name;
-select * from tracks
-LEFT JOIN genres ON tracks.TrackId = genres.GenreId
- where genres.Name = "Rock"
- order by tracks.Name
+SELECT * FROM tracks
+LEFT JOIN genres ON tracks.GenreId = genres.GenreId
+WHERE genres.Name = "Rock"
+ORDER BY tracks.Name
 
 
 --4.Select all the albums of R.E.M.
-select * from albums 
+SELECT * FROM albums
 LEFT JOIN artists ON albums.ArtistId = artists.ArtistId
-where artists.Name = "R.E.M."
+WHERE artists.Name = "R.E.M."
+
 
 --5.Select all the invoices of which an album of U2 was bought
+SELECT * FROM invoices
+LEFT JOIN invoice_items ON invoices.InvoiceId = invoice_items.InvoiceId
+LEFT JOIN tracks ON invoice_items.TrackId = tracks.TrackId
+LEFT JOIN albums ON tracks.AlbumId = albums.AlbumId
+LEFT JOIN artists ON albums.ArtistId = artists.ArtistId
+WHERE artists.Name = "U2"
 
---6.Very Hard: Select all the customers who bought for more than 10€ on one invoice
+
+--6.Select all the customers who bought for more than 10â‚¬ on one invoice
 SELECT * FROM customers
-LEFT JOIN invoices ON invoices.CustomerId = customers.CustomerId
-WHERE invoices.Total > 10 order by total
+LEFT JOIN invoices on invoices.CustomerId = customers.CustomerId
+where invoices.Total > 10 order by total
 
 --7.How many tracks are in the database?
-SELECT COUNT(*) FROM tracks
+SELECT COUNT(trackId) FROM tracks;
 
 --8.Select all the different countries of the clients?
-SELECT DISTINCT Country FROM Customers
+SELECT DISTINCT Country FROM Customers;
 
 --9.What is the total cost of the most expensive invoice (2 solutions possible)?
--- First Solution
-SELECT MAX(Total) FROM invoices
--- Second Solution
-SELECT total FROM invoices ORDER BY total DESC limit 1
+
+-- First solution:
+SELECT MAX(Total) FROM invoices;
+
+-- Second solution:
+SELECT total FROM invoices ORDER BY total DESC limit 1;
+
 
 --10.What is the average total cost of an invoice?
-SELECT AVG(total) FROM invoices
+SELECT AVG(total) FROM invoices;
 
--- 11.Hard: How many tracks are in the database of the band Pearl Jam?
+--11.How many tracks are in the database of the band Pearl Jam?
+SELECT COUNT(trackId) FROM tracks
+LEFT JOIN albums ON tracks.AlbumId = albums.AlbumId
+LEFT JOIN artists ON albums.ArtistId = artists.ArtistId
+WHERE artists.Name = "Pearl Jam"
+
+--12.Extremely hard: Select all the albums that have tracks of at least two different genres 
+SELECT albums.AlbumId,albums.Title
+FROM albums
+LEFT JOIN tracks ON albums.AlbumId = tracks.AlbumId
+LEFT JOIN genres ON tracks.GenreId =genres.GenreId
+GROUP BY tracks.albumid
+HAVING COUNT(distinct genres.GenreId) > 1
