@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import TodoData from './TodoData.json';
 import TodoItem from './TodoItem.js';
+import "react-datepicker/dist/react-datepicker.css";
+
 
 class App extends Component {
   constructor(props){
@@ -12,17 +14,20 @@ class App extends Component {
         searchString : '',
         filter: 'all',
         idTodoItem :3,
+        editItem: false,
       }
     }
     todoInput = React.createRef();
+    deadlineInput = React.createRef();
 
-       
+
 
 // (Add Item)
     addTodo = event => {
       if (event.key === 'Enter'){
         const todoInput = this.todoInput.current.value;
-        if (todoInput.trim().length ===0){
+        const deadlineInput = this.deadlineInput.current.value;
+        if (todoInput.trim().length ===0 || deadlineInput.trim().length ===0){
           return;
         }console.log(todoInput);
         this.setState((prevState, props)=>{
@@ -33,13 +38,17 @@ class App extends Component {
             id: idTodoItem,
             description: todoInput,
             done : false,
+            deadline: deadlineInput,
+            editItem:false
           });console.log(TodoData.id);
-          return { TodoData , idTodoItem, };
+          return { TodoData , idTodoItem, deadlineInput };
         });
         this.todoInput.current.value= '';
       }
     }
 
+   
+    
 // (Completed Item)
     checkTodoItem=(repoID)=>{
       const newChangedTodo=this.state.Data.map((item)=>{
@@ -61,6 +70,7 @@ class App extends Component {
         Data:filteredList
       })
     }
+
 
 // (Search Bar)  
     searchItem = (event) => {
@@ -104,53 +114,80 @@ class App extends Component {
       });
     }
 
-    render(){
-      const filterItems = this.state.Data.filter((repo) => {
+   render(){ 
+        const filterItems = this.state.Data.filter((repo) => {
         const regex = new RegExp(this.state.searchString, 'g')
-        return regex.test(repo.description)
-      })
+          return regex.test(repo.description)
+        })
 
-
-
-    return (
-      <div className='App'>
-        <header className='App-header'>
-            <img src={logo} className='App-logo' alt='logo' />
-        </header>
-          <div className='Todo-container'>  
-             <h1 className='text-logo'>
-               Todo List 
-             </h1>
-                <div class="input-container">
-                  <input type='text' className='todo-input' placeholder='What needs to be done' ref={this.todoInput} onKeyUp={this.addTodo}
-                  />
-                  <input type='text'className='todo-input' placeholder='Search todo items' onChange={this.searchItem}
-                  />
+        return ( 
+          <div className='App'>
+            <header className='App-header'>
+                <img
+                src={logo} 
+                className='App-logo'
+                  alt='logo'
+                />
+            </header>
+              <div className='Todo-container'>  
+                <h1 className='text-logo'>
+                  Todo List 
+                </h1>
+                    <div className="input-container">
+                      <input
+                        type='text'
+                        className='todo-input' 
+                        placeholder='What needs to be done?' 
+                        ref={this.todoInput} 
+                        onKeyUp={this.addTodo}
+                      />
+                      <input
+                        type='date' 
+                        className='todo-input'
+                        placeholder='Add to Deadline' 
+                        ref={this.deadlineInput}
+                        onKeyUp={this.addTodo} 
+                      />
+                      <input
+                        type='text'
+                        className='todo-input' 
+                        placeholder='Search todo items' 
+                        onChange={this.searchItem}
+                      />
+                    </div>
+                    <TodoItem 
+                        filterItems={filterItems} 
+                        checkTodoItem={this.checkTodoItem} 
+                        deleteTodoItem={this.deleteTodoItem} 
+                        editTodo={this.editTodo} 
+                        doneEdit={this.doneEdit}
+                        cancelEdit={this.cancelEdit}   
+                    />
+                  <div className='extra-container'>
+                      <div>
+                          <div>
+                            <label>
+                              <input
+                                type='checkbox' 
+                                checked={!this.anyRemaining()} 
+                                onChange={this.checkAllTodos}
+                              />
+                              Check All
+                            </label>
+                          </div> 
+                      </div>
+                      <div >Item left: {this.remainig()}
+                      </div>
+                  </div>
+                <div className='extra-container'>
+                    <button onClick={this.clearCompeleted}>
+                      Clear Completed
+                    </button>
                 </div>
-            <TodoItem filterItems={filterItems} checkTodoItem={this.checkTodoItem} deleteTodoItem={this.deleteTodoItem}
-            />
-             <div className='extra-container'>
-                <div>
-                    <div>
-                      <label>
-                        <input type='checkbox' checked={!this.anyRemaining()} onChange={this.checkAllTodos}
-                        />
-                        Check All
-                        </label>
-                    </div> 
-                </div>
-                <div >Item left: {this.remainig()}
-                </div>
-             </div>
-             <div className='extra-container'>
-                <button onClick={this.clearCompeleted}>
-                Clear Completed
-                </button>
-             </div>
-         </div>   
-     </div>
+            </div>   
+        </div>
       );
-    }
+  }
 }
 
 export default App;
