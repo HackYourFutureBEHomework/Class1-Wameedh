@@ -1,5 +1,3 @@
-
-
 import React, { Component } from 'react';
 import EditableLabel from "react-inline-editing";
 
@@ -44,9 +42,6 @@ class TodoOpject extends Component{
                     todos={todos} 
                     checkTodoItem={this.props.checkTodoItem}
                     deleteTodoItem={this.props.deleteTodoItem}
-                    editTodo={this.props.editTodo}
-                    doneEdit={this.props.doneEdit}
-                    cancelEdit={this.props.cancelEdit}
                 /> 
             )
         })
