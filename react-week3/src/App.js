@@ -4,7 +4,7 @@ import './App.css';
 import TodoData from './TodoData.json';
 import TodoItem from './TodoItem.js';
 import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
+
 
 class App extends Component {
   constructor(props){
@@ -15,14 +15,12 @@ class App extends Component {
         filter: 'all',
         idTodoItem :3,
         editItem: false,
-        startDate: moment()
       }
     }
     todoInput = React.createRef();
     deadlineInput = React.createRef();
 
 
-  
 
 // (Add Item)
     addTodo = event => {
@@ -72,35 +70,6 @@ class App extends Component {
         Data:filteredList
       })
     }
-
-
-    // edit item
-    handleChange = e => {
-      this.setState({
-        description: e.target.value
-      });
-    };
-    
-    handleSubmit = e => {
-      e.preventDefault();
-  
-      const newTodo = this.state.todos.concat([
-        {
-          id: this.state.todos.length + 1,
-          description: this.state.description,
-          deadline: this.state.startDate.format("YYYY-MM-DD"),
-          done: false
-        }
-      ]);
-  
-      const newDescription = "";
-  
-      this.setState({
-        todos: newTodo,
-        description: newDescription
-      });
-    };
-
 
 
 // (Search Bar)  
