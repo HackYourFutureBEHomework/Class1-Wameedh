@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import TodoData from './TodoData.json';
 import TodoItem from './TodoItem.js';
-import "react-datepicker/dist/react-datepicker.css";
 
 
 class App extends Component {
@@ -14,7 +13,6 @@ class App extends Component {
         searchString : '',
         filter: 'all',
         idTodoItem :3,
-        editItem: false,
       }
     }
     todoInput = React.createRef();
@@ -39,7 +37,6 @@ class App extends Component {
             description: todoInput,
             done : false,
             deadline: deadlineInput,
-            editItem:false
           });console.log(TodoData.id);
           return { TodoData , idTodoItem, deadlineInput };
         });
@@ -82,9 +79,7 @@ class App extends Component {
     remainig = () => {
       return this.state.Data.filter(TodoData => !TodoData.done).length;
     }
-    anyRemaining = () => {
-      return this.remainig() !== 0;
-    }
+
 
   // Clear Completed (bottom)
     todosCompletedCount = ()=> {
@@ -159,9 +154,7 @@ class App extends Component {
                         filterItems={filterItems} 
                         checkTodoItem={this.checkTodoItem} 
                         deleteTodoItem={this.deleteTodoItem} 
-                        editTodo={this.editTodo} 
-                        doneEdit={this.doneEdit}
-                        cancelEdit={this.cancelEdit}   
+                          
                     />
                   <div className='extra-container'>
                       <div>
@@ -169,7 +162,7 @@ class App extends Component {
                             <label>
                               <input
                                 type='checkbox' 
-                                checked={!this.anyRemaining()} 
+                                checked={this.remainig() === 0}
                                 onChange={this.checkAllTodos}
                               />
                               Check All
