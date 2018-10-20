@@ -12,7 +12,7 @@ class App extends Component {
         Data:TodoData,
         searchString : '',
         filter: 'all',
-        idTodoItem :3,
+        idTodoItem :''
       }
     }
     todoInput = React.createRef();
@@ -45,7 +45,12 @@ class App extends Component {
     }
 
    
-    
+// (Search Bar)  
+    searchItem = (event) => {
+      const searchString = event.target.value
+      this.setState({searchString : searchString})
+    }  
+      
 // (Completed Item)
     checkTodoItem=(repoID)=>{
       const newChangedTodo=this.state.Data.map((item)=>{
@@ -68,22 +73,20 @@ class App extends Component {
       })
     }
 
-
-// (Search Bar)  
-    searchItem = (event) => {
-      const searchString = event.target.value
-      this.setState({searchString : searchString})
-    }
-  
 // (Remainig Item)
     remainig = () => {
       return this.state.Data.filter(TodoData => !TodoData.done).length;
     }
 
-
-  // Clear Completed (bottom)
-    todosCompletedCount = ()=> {
-      return this.state.Data.filter(todo => todo.done).length;
+// (Check All Todos)
+    checkAllTodos = (event) => {
+      event.persist();
+      this.setState((prevState, props) => {
+        let checkAllItems = prevState.Data;
+        console.log('running');
+        checkAllItems.forEach((todo) => todo.done = event.target.checked);
+        return {checkAllItems};
+      });
     }
 
 // (Clear Completed))
@@ -98,16 +101,7 @@ class App extends Component {
       this.setState({filter})
     }
 
-// (Check All Todos)
-    checkAllTodos = (event) => {
-      event.persist();
-      this.setState((prevState, props) => {
-        let checkAllItems = prevState.Data;
-        console.log('running');
-        checkAllItems.forEach((todo) => todo.done = event.target.checked);
-        return {checkAllItems};
-      });
-    }
+
 
    render(){ 
         const filterItems = this.state.Data.filter((repo) => {
@@ -128,7 +122,7 @@ class App extends Component {
                 <h1 className='text-logo'>
                   Todo List 
                 </h1>
-                    <div className="input-container">
+                    <div>
                       <input
                         type='text'
                         className='todo-input' 
@@ -138,14 +132,14 @@ class App extends Component {
                       />
                       <input
                         type='date' 
-                        className='todo-input'
+                        className='date-input'
                         placeholder='Add to Deadline' 
                         ref={this.deadlineInput}
                         onKeyUp={this.addTodo} 
                       />
                       <input
-                        type='text'
-                        className='todo-input' 
+                        type='search'
+                        className='search-input' 
                         placeholder='Search todo items' 
                         onChange={this.searchItem}
                       />
