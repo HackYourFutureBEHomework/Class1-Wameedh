@@ -1,24 +1,105 @@
-import React, { Component } from 'react';
+ import React, { Component } from 'react';
+ import delete_sweep from './icon/delete_sweep.svg';
+ import dcreate from './icon/create.svg';
+ import clear from './icon/clear.svg';
+ import done from './icon/done.svg';
 
+ 
 class TodoOpject extends Component{
+    constructor(props){
+        super(props)
+        this.state={
+            editing:false,
+            editTodoItem:this.props.todos.description
+        }
+    }
+    ChangeTodoItem(){
+        this.setState({
+            editing:!this.state.editing
+        })
+    }
+    editingChange(event){
+        const newtext=event.target.value
+        this.setState({
+            editTodoItem:newtext
+        })
+    }
+    editingDone(event){
+        if(event.keyCode==='')
+        this.setState({
+            editing:false
+        })
+    }
+    cancelEditing(){
+        this.setState({
+            editing:!this.state.editing,
+            editTodoItem:this.props.todos.description
+        })
+
+    }
+
     render(){
-        const todos= this.props.todos
+        const Data= this.props.todos
         const checkTodoItem= this.props.checkTodoItem
         const deleteTodoItem= this.props.deleteTodoItem
-        
-        return(
+
+        const TodoItem=(        
             <div className="todo-item">         
-                <input type="checkbox"  checked={todos.done} onChange={()=>{checkTodoItem(todos.id)}} />
-                <div className={todos.done? "completed":"notDone"}>{todos.description}
-                    <span className="deadline">{todos.deadline}
+                <input
+                     type="checkbox"
+                     checked={Data.done} 
+                     onChange={()=>{checkTodoItem(Data.id)}} 
+                />
+                <div
+                    onDoubleClick={this.ChangeTodoItem.bind(this)}
+                    className={Data.done? "completed":"notDone"}
+                >
+                 {this.state.editTodoItem}                
+                    <span 
+                        className="deadline"
+                    >
+                        {Data.deadline}
                     </span>
                 </div>
-                <button
-                    onClick={()=>{deleteTodoItem(todos.id)}}>
-                    Delete
-                </button>
+                <img
+                    src={dcreate} 
+                    className='icon-logo'
+                    alt='create'
+                    onClick={()=>{this.ChangeTodoItem(Data.id)}}
+                />
+                <img
+                    src={clear} 
+                    className='icon-logo'
+                    alt='delete'
+                    onClick={()=>{deleteTodoItem(Data.id)}}
+                />
             </div>
         )
+        const EditingItemsTodo=(
+            <div className="todo-item">            
+               <input
+                    type="text" 
+                    value={this.state.editTodoItem} 
+                    onKeyDown={this.editingDone.bind(this)}
+                    onChange={this.editingChange.bind(this)}
+                    className="Editing"
+                >
+               </input>
+                <img
+                    src={delete_sweep} 
+                    className='icon-logo'
+                    alt='Cancel'
+                    onClick={()=>{this.cancelEditing()}}
+                />
+                 <img
+                    src={done} 
+                    className='icon-logo'
+                    alt='done'
+                    onClick={()=>{this.cancelEditing()}}
+                />
+            </div>
+        )
+        return (this.state.editing ? EditingItemsTodo : TodoItem)
     }                                                                  
 }
  
