@@ -95,7 +95,7 @@ class TodoOpject extends Component{
                     src={done} 
                     className='icon-logo'
                     alt='done'
-                    onClick={()=>{this.cancelEditing()}}
+                    onClick={()=>{this.ChangeTodoItem()}}
                 />
             </div>
         )
